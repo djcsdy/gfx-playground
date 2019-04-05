@@ -4,4 +4,29 @@ version = "0.0.0"
 authors = ["Daniel Cassidy <mail@danielcassidy.me.uk>"]
 edition = "2018"
 
+[features]
+default = []
+metal = ["gfx-backend-metal"]
+gl = ["gfx-backend-gl"]
+dx11 = ["gfx-backend-dx11"]
+dx12 = ["gfx-backend-dx12"]
+vulkan = ["gfx-backend-vulkan"]
+unstable = []
+
 [dependencies]
+env_logger = "0.5"
+image = "0.19"
+log = "0.4"
+winit = "0.18"
+glsl-to-spirv = "0.1.4"
+gfx-hal = { git = "https://github.com/gfx-rs/gfx.git", rev = "b5163cc" }
+gfx-backend-empty = { git = "https://github.com/gfx-rs/gfx.git", rev = "b5163cc" }
+gfx-backend-gl = { git = "https://github.com/gfx-rs/gfx.git", rev = "b5163cc", features = ["glutin"], optional = true }
+gfx-backend-vulkan = { git = "https://github.com/gfx-rs/gfx.git", rev = "b5163cc", optional = true }
+
+[target.'cfg(any(target_os = "macos", all(target_os = "ios", target_arch = "aarch64")))'.dependencies]
+gfx-backend-metal = { git = "https://github.com/gfx-rs/gfx.git", rev = "b5163cc", optional = true }
+
+[target.'cfg(windows)'.dependencies]
+gfx-backend-dx11 = { git = "https://github.com/gfx-rs/gfx.git", rev = "b5163cc", optional = true }
+gfx-backend-dx12 = { git = "https://github.com/gfx-rs/gfx.git", rev = "b5163cc", optional = true }
